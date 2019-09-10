@@ -11,8 +11,6 @@
 class TERRAINGENERATION_API NoiseGenerator
 {
 public:
-	NoiseGenerator();
-	~NoiseGenerator();
 
 	static FFloatMatrixStruct GenerateRandomNoiseMatrix(int32 X, int32 Y, int32 Seed = 1);
 

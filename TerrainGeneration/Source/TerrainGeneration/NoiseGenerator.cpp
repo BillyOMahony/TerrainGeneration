@@ -3,14 +3,6 @@
 
 #include "NoiseGenerator.h"
 
-NoiseGenerator::NoiseGenerator()
-{
-}
-
-NoiseGenerator::~NoiseGenerator()
-{
-}
-
 FFloatMatrixStruct NoiseGenerator::GenerateRandomNoiseMatrix(int32 X, int32 Y, int32 Seed)
 {
 	FRandomStream Stream(Seed);

@@ -42,7 +42,7 @@ struct FFloatMatrixStruct {
 	GENERATED_USTRUCT_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FFloatVectorStruct> Columns; //Consider this array the x axis, and the contents of the Columns it's y axis
+	TArray<FFloatVectorStruct> Rows; //Consider this array the y axis, and the contents of the Rows it's x axis
 
 private:
 	int32 X;
@@ -52,7 +52,7 @@ public:
 	// Default contructor creates a 1x1 matrix
 	FFloatMatrixStruct() {
 		FFloatVectorStruct NewStruct = FFloatVectorStruct();
-		Columns.Add(NewStruct);
+		Rows.Add(NewStruct);
 	}
 
 	FFloatMatrixStruct(int32 newX, int32 newY) {
@@ -60,19 +60,24 @@ public:
 		Y = newY;
 		for (int32 i = 0; i < newX; i++) {
 			FFloatVectorStruct NewStruct = FFloatVectorStruct(newY);
-			Columns.Add(NewStruct);
+			Rows.Add(NewStruct);
 		}
 	}
 
+	/**
+	 *	Returns the element at [x,y].
+	 *	If the element cannot be found, -1 is returned indicating something went wrong.
+	 */
 	float GetElementAt(int32 x, int32 y) {
 		if (X > x && Y > y) {
-			return Columns[x].Get(y);
+			return Rows[x].Get(y);
 		}
+		return -1; // Something has gone wrong
 	}
 
 	void SetElementAt(int32 x, int32 y, float value) {
 		if (X > x && Y > y) {
-			Columns[x].Set(y, value);
+			Rows[x].Set(y, value);
 		}
 	}
 
@@ -80,10 +85,20 @@ public:
 		for (int32 i = 0; i < X; i++) {
 			FString string = "";
 			for (int32 j = 0; j < Y; j++) {
-				string.Append(FString::SanitizeFloat(Columns[i].Get(j)));
+				string.Append(FString::SanitizeFloat(Rows[i].Get(j)));
 				string.Append(", ");
 			}
 			UE_LOG(LogTemp, Warning, TEXT("%s"), *string);
 		}
+	}
+
+	int32 GetWidth()
+	{
+		return X;
+	}
+
+	int32 GetLength()
+	{
+		return Y;
 	}
 };
