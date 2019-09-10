@@ -31,7 +31,7 @@ struct FFloatVectorStruct {
 		return FloatVector[Element];
 	}
 
-	float Set(int32 Element, float Value) {
+	void Set(int32 Element, float Value) {
 		FloatVector[Element] = Value;
 	}
 
@@ -44,9 +44,11 @@ struct FFloatMatrixStruct {
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FFloatVectorStruct> Columns; //Consider this array the x axis, and the contents of the Columns it's y axis
 
+private:
 	int32 X;
 	int32 Y;
 
+public:
 	// Default contructor creates a 1x1 matrix
 	FFloatMatrixStruct() {
 		FFloatVectorStruct NewStruct = FFloatVectorStruct();
@@ -68,9 +70,20 @@ struct FFloatMatrixStruct {
 		}
 	}
 
-	float SetElementAt(int32 x, int32 y, float value) {
+	void SetElementAt(int32 x, int32 y, float value) {
 		if (X > x && Y > y) {
 			Columns[x].Set(y, value);
+		}
+	}
+
+	void PrintMatrix() {
+		for (int32 i = 0; i < X; i++) {
+			FString string = "";
+			for (int32 j = 0; j < Y; j++) {
+				string.Append(FString::SanitizeFloat(Columns[i].Get(j)));
+				string.Append(", ");
+			}
+			UE_LOG(LogTemp, Warning, TEXT("%s"), *string);
 		}
 	}
 };

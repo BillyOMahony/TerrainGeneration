@@ -25,5 +25,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(VisibleAnywhere)
-	FFloatMatrixStruct MatrixTest = FFloatMatrixStruct(10, 10);
+	FFloatMatrixStruct MatrixTest;
+
+private:
+	UPROPERTY(EditAnywhere)
+	int32 X = 32;
+
+	UPROPERTY(EditAnywhere)
+	int32 Y = 32;
 };

@@ -2,6 +2,7 @@
 
 
 #include "Test.h"
+#include "NoiseGenerator.h"
 
 // Sets default values
 ATest::ATest()
@@ -15,7 +16,8 @@ ATest::ATest()
 void ATest::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	MatrixTest = NoiseGenerator::GenerateRandomNoiseMatrix(X, Y);
+	MatrixTest.PrintMatrix();
 }
 
 // Called every frame
