@@ -32,28 +32,29 @@ protected:
 
 	/**
 	 * Gets a Matrix which is used in generation of the terrain
+	 * @return A matrix to be used in terrain generation
 	 */
 	FFloatMatrixStruct GetTerrainMatrix();
 
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Generation")
 	int32 GridSize = 32;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Generation")
 	int32 MaxHeight = 10;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Generation")
 	int32 Seed = 0;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Tile")
 	TSubclassOf<AActor> Tile;
 
 	// Tile XY dimensions (Tile should have equal len/width)
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Tile")
 	float TileSizeXY = 100;
 
 	// Tile Height
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Tile")
 	float TileSizeZ = 20;
 
 
