@@ -7,6 +7,12 @@
 #include "DataStructures.h"
 #include "TerrainGenerator.generated.h"
 
+UENUM()
+enum class ENoiseType : uint8 {
+	Random	UMETA(DisplayName = "Random"),
+	Perlin	UMETA(DisplayName = "Perlin"),
+};
+
 UCLASS()
 class TERRAINGENERATION_API ATerrainGenerator : public AActor
 {
@@ -51,6 +57,9 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Generation")
 	int32 Seed = 0;
+
+	UPROPERTY(EditAnywhere, Category = "Generation")
+	ENoiseType NoiseType = ENoiseType::Perlin;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Tile")
 	TSubclassOf<AActor> Tile;
