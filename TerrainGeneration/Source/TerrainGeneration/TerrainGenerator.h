@@ -44,6 +44,12 @@ private:
 	int32 MaxHeight = 10;
 
 	UPROPERTY(EditAnywhere, Category = "Generation")
+	int32 Octaves = 4;
+
+	UPROPERTY(EditAnywhere, Category = "Generation")
+	float ScaleBias = 1.f;
+
+	UPROPERTY(EditAnywhere, Category = "Generation")
 	int32 Seed = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Tile")

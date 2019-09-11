@@ -22,7 +22,9 @@ void ATerrainGenerator::BeginPlay()
 
 FFloatMatrixStruct ATerrainGenerator::GetTerrainMatrix()
 {
-	return NoiseGenerator::GenerateRandomNoiseMatrix(GridSize, GridSize, Seed);
+	return NoiseGenerator::GeneratePerlinNoiseMatrix(GridSize, GridSize, Octaves, ScaleBias, Seed);
+
+	//return NoiseGenerator::GenerateRandomNoiseMatrix(GridSize, GridSize, Seed);
 }
 
 void ATerrainGenerator::GenerateTerrainTiles()

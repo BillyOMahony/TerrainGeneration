@@ -27,11 +27,31 @@ struct FFloatVectorStruct {
 		}
 	}
 
-	float Get(int32 Element) {
+	float GetMin() {
+		float min = FloatVector[0];
+		for (int32 i = 1; i < FloatVector.Num(); i++) {
+			if (FloatVector[i] < min) {
+				min = FloatVector[i];
+			}
+		}
+		return min;
+	}
+
+	float GetMax() {
+		float max = FloatVector[0];
+		for (int32 i = 1; i < FloatVector.Num(); i++) {
+			if (FloatVector[i] > max) {
+				max = FloatVector[i];
+			}
+		}
+		return max;
+	}
+
+	float GetElementAt(int32 Element) {
 		return FloatVector[Element];
 	}
 
-	void Set(int32 Element, float Value) {
+	void SetElementAt(int32 Element, float Value) {
 		FloatVector[Element] = Value;
 	}
 
@@ -70,14 +90,14 @@ public:
 	 */
 	float GetElementAt(int32 x, int32 y) {
 		if (X > x && Y > y) {
-			return Rows[x].Get(y);
+			return Rows[x].GetElementAt(y);
 		}
 		return -1; // Something has gone wrong
 	}
 
 	void SetElementAt(int32 x, int32 y, float value) {
 		if (X > x && Y > y) {
-			Rows[x].Set(y, value);
+			Rows[x].SetElementAt(y, value);
 		}
 	}
 
@@ -85,11 +105,31 @@ public:
 		for (int32 i = 0; i < X; i++) {
 			FString string = "";
 			for (int32 j = 0; j < Y; j++) {
-				string.Append(FString::SanitizeFloat(Rows[i].Get(j)));
+				string.Append(FString::SanitizeFloat(Rows[i].GetElementAt(j)));
 				string.Append(", ");
 			}
 			UE_LOG(LogTemp, Warning, TEXT("%s"), *string);
 		}
+	}
+
+	float GetMin() {
+		float min = Rows[0].GetMin();
+		for (int32 i = 1; i < X; i++) {
+			if (Rows[i].GetMin() < min) {
+				min = Rows[i].GetMin();
+			}
+		}
+		return min;
+	}
+
+	float GetMax() {
+		float max = Rows[0].GetMax();
+		for (int32 i = 1; i < X; i++) {
+			if (Rows[i].GetMax() > max) {
+				max = Rows[i].GetMax();
+			}
+		}
+		return max;
 	}
 
 	int32 GetWidth()
