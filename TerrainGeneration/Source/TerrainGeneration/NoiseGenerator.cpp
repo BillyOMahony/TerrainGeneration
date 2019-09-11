@@ -20,13 +20,6 @@ FFloatMatrixStruct NoiseGenerator::GeneratePerlinNoiseMatrix(int32 X, int32 Y, i
 {
 	FFloatMatrixStruct RandomNoise = GenerateRandomNoiseMatrix(X, Y, Seed);
 	FFloatMatrixStruct PerlinNoise(X, Y);
-	
-	if (OctaveCount > FMath::Sqrt(X) || OctaveCount > FMath::Sqrt(Y)) {
-		if (FMath::Sqrt(X) > FMath::Sqrt(Y))
-			OctaveCount = FMath::Sqrt(Y);
-		else 
-			OctaveCount = FMath::Sqrt(X);
-	}
 
 	for (int32 x = 0; x < RandomNoise.GetWidth(); x++) {
 		for (int32 y = 0; y < RandomNoise.GetLength(); y++) {
