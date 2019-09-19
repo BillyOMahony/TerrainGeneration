@@ -17,6 +17,7 @@ ATerrainGenerator::ATerrainGenerator()
 void ATerrainGenerator::BeginPlay()
 {
 	Super::BeginPlay();
+
 	GenerateTerrainTiles();
 }
 
@@ -25,7 +26,7 @@ FFloatMatrixStruct ATerrainGenerator::GetTerrainMatrix()
 	switch (NoiseType) {
 		
 		case ENoiseType::Perlin:
-			return NoiseGenerator::GeneratePerlinNoiseMatrix(GridSize, GridSize, Octaves, ScaleBias, Seed);
+			return NoiseGenerator::GeneratePerlinNoiseMatrix(GridSize, GridSize, ChunkOffsetX * GridSize, ChunkOffsetY * GridSize, Octaves, ScaleBias, Seed);
 			break;
 
 		case ENoiseType::Random:
@@ -33,7 +34,7 @@ FFloatMatrixStruct ATerrainGenerator::GetTerrainMatrix()
 			break;
 
 		default:
-			return NoiseGenerator::GeneratePerlinNoiseMatrix(GridSize, GridSize, Octaves, ScaleBias, Seed);
+			return NoiseGenerator::GeneratePerlinNoiseMatrix(GridSize, GridSize, ChunkOffsetX * GridSize, ChunkOffsetY * GridSize, Octaves, ScaleBias, Seed);
 			break;
 	}
 }
@@ -47,13 +48,10 @@ void ATerrainGenerator::GenerateTerrainTiles()
 	}
 	auto HeightMatrix = GetTerrainMatrix();
 	float HeightStep = 1.f / MaxHeight;
-	UE_LOG(LogTemp, Warning, TEXT("fhajk"));
 	for(int32 i = 0; i < HeightMatrix.GetLength(); i++)
 	{
 		for (int32 j = 0; j < HeightMatrix.GetWidth(); j++){
 			int32 Height = HeightMatrix.GetElementAt(i, j)/HeightStep;
-
-			UE_LOG(LogTemp, Warning, TEXT("%f Rounded to %i"), HeightMatrix.GetElementAt(i, j), Height);
 
 			float XSpawnOffset = GetActorLocation().X + (TileSizeXY * i);
 			float YSpawnOffset = GetActorLocation().Y + (TileSizeXY * j);
@@ -65,6 +63,8 @@ void ATerrainGenerator::GenerateTerrainTiles()
 
 		}
 	}
+
+	//HeightMatrix.PrintMatrix();
 
 }
 

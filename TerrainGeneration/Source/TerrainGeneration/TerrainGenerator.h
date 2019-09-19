@@ -46,6 +46,14 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Generation")
 	int32 GridSize = 32;
 
+	// Offset in chunks of this chunk on the X axis
+	UPROPERTY(EditAnywhere, Category = "Generation")
+	int32 ChunkOffsetX = 0;
+
+	// Offset in chunks of this chunk on the Y axis
+	UPROPERTY(EditAnywhere, Category = "Generation")
+	int32 ChunkOffsetY = 0;
+
 	UPROPERTY(EditAnywhere, Category = "Generation")
 	int32 MaxHeight = 10;
 

@@ -2,6 +2,7 @@
 
 
 #include "NoiseGenerator.h"
+#include "PerlinNoise.h"
 
 FFloatMatrixStruct NoiseGenerator::GenerateRandomNoiseMatrix(int32 X, int32 Y, int32 Seed)
 {
@@ -16,8 +17,26 @@ FFloatMatrixStruct NoiseGenerator::GenerateRandomNoiseMatrix(int32 X, int32 Y, i
 	return FloatMatrix;
 }
 
-FFloatMatrixStruct NoiseGenerator::GeneratePerlinNoiseMatrix(int32 X, int32 Y, int32 OctaveCount, float ScaleBias, int32 Seed)
+FFloatMatrixStruct NoiseGenerator::GeneratePerlinNoiseMatrix(int32 Width, int32 Height, int32 OffsetX, int32 OffsetY, int32 OctaveCount, float ScaleBias, int32 Seed)
 {
+	FFloatMatrixStruct PerlinNoise(Width, Height);
+	UE_LOG(LogTemp, Error, TEXT("%i"), Width);
+	UE_LOG(LogTemp, Error, TEXT("%i"), Height);
+	UE_LOG(LogTemp, Error, TEXT("%i"), OffsetX);
+	UE_LOG(LogTemp, Error, TEXT("%i"), OffsetY);
+	UE_LOG(LogTemp, Error, TEXT("%f"), ScaleBias);
+
+	for (int32 i = 0; i < Width; i++) {
+		for (int32 j = 0; j < Height; j++) {
+			float NoiseValue = PerlinNoise2D((OffsetX + i) * ScaleBias, (OffsetY + j) * ScaleBias);
+			//UE_LOG(LogTemp, Error, TEXT("%f"), NoiseValue);
+			PerlinNoise.SetElementAt(i, j, NoiseValue);
+		}
+	}
+
+	return PerlinNoise;
+
+	/*
 	FFloatMatrixStruct RandomNoise = GenerateRandomNoiseMatrix(X, Y, Seed);
 	FFloatMatrixStruct PerlinNoise(X, Y);
 
@@ -50,7 +69,13 @@ FFloatMatrixStruct NoiseGenerator::GeneratePerlinNoiseMatrix(int32 X, int32 Y, i
 
 			PerlinNoise.SetElementAt(x, y, Noise / ScaleAcc);
 		}
+		
 	}
-
+	*/
 	return PerlinNoise;
+}
+
+float NoiseGenerator::PerlinNoise2D(float x, float y)
+{
+	return PerlinAlgo::Noise(x, y, 0);
 }
