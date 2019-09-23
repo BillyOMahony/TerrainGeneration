@@ -31,7 +31,7 @@ public:
 	 *	@param ScaleBias TODO
 	 *	@param Seed Seed used by the random number generator
 	 */
-	static FFloatMatrixStruct GeneratePerlinNoiseMatrix(int32 Width, int32 Height, int32 OffsetX, int32 OffsetY, int32 OctaveCount, float ScaleBias = 1.f, int32 Seed = 1);
+	static FFloatMatrixStruct GeneratePerlinNoiseMatrix(int32 Width, int32 Height, int32 OffsetX, int32 OffsetY, float ScaleBias = 1.f);
 
 	/**
 	 *

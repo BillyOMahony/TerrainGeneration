@@ -17,14 +17,9 @@ FFloatMatrixStruct NoiseGenerator::GenerateRandomNoiseMatrix(int32 X, int32 Y, i
 	return FloatMatrix;
 }
 
-FFloatMatrixStruct NoiseGenerator::GeneratePerlinNoiseMatrix(int32 Width, int32 Height, int32 OffsetX, int32 OffsetY, int32 OctaveCount, float ScaleBias, int32 Seed)
+FFloatMatrixStruct NoiseGenerator::GeneratePerlinNoiseMatrix(int32 Width, int32 Height, int32 OffsetX, int32 OffsetY, float ScaleBias)
 {
 	FFloatMatrixStruct PerlinNoise(Width, Height);
-	UE_LOG(LogTemp, Error, TEXT("%i"), Width);
-	UE_LOG(LogTemp, Error, TEXT("%i"), Height);
-	UE_LOG(LogTemp, Error, TEXT("%i"), OffsetX);
-	UE_LOG(LogTemp, Error, TEXT("%i"), OffsetY);
-	UE_LOG(LogTemp, Error, TEXT("%f"), ScaleBias);
 
 	for (int32 i = 0; i < Width; i++) {
 		for (int32 j = 0; j < Height; j++) {

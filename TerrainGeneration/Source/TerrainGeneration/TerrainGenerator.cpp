@@ -3,6 +3,7 @@
 
 #include "TerrainGenerator.h"
 #include "NoiseGenerator.h"
+#include "TerrainChunk.h"
 #include "Engine/World.h"
 
 // Sets default values
@@ -18,58 +19,16 @@ void ATerrainGenerator::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GenerateTerrainTiles();
-}
+	if (!TerrainChunk) return;
 
-FFloatMatrixStruct ATerrainGenerator::GetTerrainMatrix()
-{
-	switch (NoiseType) {
-		
-		case ENoiseType::Perlin:
-			return NoiseGenerator::GeneratePerlinNoiseMatrix(GridSize, GridSize, ChunkOffsetX * GridSize, ChunkOffsetY * GridSize, Octaves, ScaleBias, Seed);
-			break;
+	ATerrainChunk * Chunk00 = GetWorld()->SpawnActor<ATerrainChunk>(TerrainChunk, GetActorLocation(), GetActorRotation());
+	Chunk00->SetTile(Tile);
+	Chunk00->LoadChunk(ChunkSize, FVector2D(ChunkOffsetX, ChunkOffsetY), MaxHeight, ScaleBias, TileSizeXY, TileSizeZ);
 
-		case ENoiseType::Random:
-			return NoiseGenerator::GenerateRandomNoiseMatrix(GridSize, GridSize, Seed);
-			break;
+	FVector Offset = FVector((ChunkOffsetX + TileSizeXY) * ChunkSize, 0, 0);
+	ATerrainChunk * Chunk11 = GetWorld()->SpawnActor<ATerrainChunk>(TerrainChunk, GetActorLocation() + Offset, GetActorRotation());
+	Chunk11->SetTile(Tile);
+	Chunk11->LoadChunk(ChunkSize, FVector2D(1, ChunkOffsetY), MaxHeight, ScaleBias, TileSizeXY, TileSizeZ);
 
-		default:
-			return NoiseGenerator::GeneratePerlinNoiseMatrix(GridSize, GridSize, ChunkOffsetX * GridSize, ChunkOffsetY * GridSize, Octaves, ScaleBias, Seed);
-			break;
-	}
-}
-
-void ATerrainGenerator::GenerateTerrainTiles()
-{
-	if(!Tile)
-	{
-		UE_LOG(LogTemp, Error, TEXT("TerrainGenerator::GenerateTerrainTiles() - Tile not assigned"));
-		return;
-	}
-	auto HeightMatrix = GetTerrainMatrix();
-	float HeightStep = 1.f / MaxHeight;
-	for(int32 i = 0; i < HeightMatrix.GetLength(); i++)
-	{
-		for (int32 j = 0; j < HeightMatrix.GetWidth(); j++){
-			int32 Height = HeightMatrix.GetElementAt(i, j)/HeightStep;
-
-			float XSpawnOffset = GetActorLocation().X + (TileSizeXY * i);
-			float YSpawnOffset = GetActorLocation().Y + (TileSizeXY * j);
-			float ZSpawnOffset = GetActorLocation().Z + (TileSizeZ * Height);
-
-			FVector SpawnLoc = FVector(XSpawnOffset, YSpawnOffset, ZSpawnOffset);
-
-			GetWorld()->SpawnActor<AActor>(Tile, SpawnLoc, GetActorRotation());
-
-		}
-	}
-
-	//HeightMatrix.PrintMatrix();
-
-}
-
-void ATerrainGenerator::SetGridSize(int32 NewGridSize)
-{
-	GridSize = NewGridSize;
 }
 
