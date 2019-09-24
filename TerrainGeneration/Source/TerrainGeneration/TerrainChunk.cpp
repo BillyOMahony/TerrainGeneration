@@ -50,7 +50,29 @@ void ATerrainChunk::LoadChunk(int32 ChunkSize, FVector2D NewChunkOffset, int32 M
 
 	float HeightStep = 1.f / MaxHeight;
 
-	(new FAutoDeleteAsyncTask<FTileSpawnerTask>(Tiles, this, Tile, ChunkSize, TileSizeXY, TileSizeZ, HeightStep, HeightMatrix))->StartBackgroundTask();
+	for (int32 i = 0; i < HeightMatrix.GetLength(); i++)
+	{
+		for (int32 j = 0; j < HeightMatrix.GetWidth(); j++) {
+			int32 Height = HeightMatrix.GetElementAt(i, j) / HeightStep;
+
+			float XSpawnOffset = GetActorLocation().X + (TileSizeXY * i) - ((ChunkSize * TileSizeXY) / 2) + (TileSizeXY / 2);
+			float YSpawnOffset = GetActorLocation().Y + (TileSizeXY * j) - ((ChunkSize * TileSizeXY) / 2) + (TileSizeXY / 2);
+			float ZSpawnOffset = GetActorLocation().Z + (TileSizeZ * Height);
+
+			FVector SpawnLoc = FVector(XSpawnOffset, YSpawnOffset, ZSpawnOffset);
+			FRotator SpawnRot = FRotator(0, 0, 0);
+
+			if (!Tile) {
+				UE_LOG(LogTemp, Error, TEXT("FTileSpawnerTask::DoWork() - No Tile Specified"));
+				return;
+			}
+
+			AActor * SpawnedTile = GetWorld()->SpawnActor<AActor>(Tile, SpawnLoc, SpawnRot);
+			Tiles.Add(SpawnedTile);
+		}
+	}
+
+	//(new FAutoDeleteAsyncTask<FTileSpawnerTask>(Tiles, this, Tile, ChunkSize, TileSizeXY, TileSizeZ, HeightStep, HeightMatrix))->StartBackgroundTask();
 }
 
 void ATerrainChunk::UnloadChunk()

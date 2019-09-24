@@ -121,11 +121,6 @@ protected:
 
 				AActor * SpawnedTile = World->SpawnActor<AActor>(Tile, SpawnLoc, SpawnRot);
 				SpawnedTiles.Add(SpawnedTile);
-				/*
-				AActor * SpawnedTile = Spawner->GetWorld()->SpawnActor(Tile);
-				SpawnedTile->SetActorLocation(SpawnLoc);
-				
-				*/
 			}
 		}
 	}
