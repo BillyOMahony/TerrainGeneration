@@ -15,13 +15,30 @@ public:
 	// Sets default values for this actor's properties
 	ATerrainGenerator();
 
+	/**
+	 *	Called by a chunk when a player enters a new chunk
+	 *	Unloads unnecessary chunks and loads new chunks
+	 */
+	void OnPlayerEnterNewChunk(FVector2D ChunkOffset);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	/**
+	 *	Loads 9 initial chunks
+	 */
+	void GenerateInitialChunks();
+
+	/**
+	 *	Creates a new chunk
+	 *	@param ChunkOffset - the offset position of this chunk, measured in chunks
+	 */
+	class ATerrainChunk * CreateChunk(FVector2D ChunkOffset);
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Generation")
-	TSubclassOf<class ATerrainChunk> TerrainChunk;
+	TSubclassOf<ATerrainChunk> TerrainChunk;
 
 	UPROPERTY(EditAnywhere, Category = "Generation")
 	int32 ChunkSize = 32;
@@ -50,4 +67,6 @@ private:
 	// Tile Height
 	UPROPERTY(EditAnywhere, Category = "Tile")
 	float TileSizeZ = 20;
+
+	TArray<ATerrainChunk *> LoadedChunks;
 };
