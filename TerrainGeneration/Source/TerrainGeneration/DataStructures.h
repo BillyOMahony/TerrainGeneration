@@ -95,12 +95,21 @@ public:
 		return -1; // Something has gone wrong
 	}
 
+	/**
+	 *	Sets the element at (x,y) to be equal to value
+	 *	@param x - x coordinate of the element
+	 *	@param y - y coordinate of the element
+	 *	@param value - new value of element (x,y)
+	 */
 	void SetElementAt(int32 x, int32 y, float value) {
 		if (X > x && Y > y) {
 			Rows[x].SetElementAt(y, value);
 		}
 	}
 
+	/**
+	 *	Prints the contents of the matrix to console.
+	 */
 	void PrintMatrix() {
 		for (int32 i = 0; i < X; i++) {
 			FString string = "";
@@ -112,6 +121,9 @@ public:
 		}
 	}
 
+	/**
+	 *	@return the minimum value in the matrix
+	 */
 	float GetMin() {
 		float min = Rows[0].GetMin();
 		for (int32 i = 1; i < X; i++) {
@@ -122,6 +134,9 @@ public:
 		return min;
 	}
 
+	/**
+	 *	@return the maximum value in the matrix
+	 */
 	float GetMax() {
 		float max = Rows[0].GetMax();
 		for (int32 i = 1; i < X; i++) {
@@ -132,11 +147,17 @@ public:
 		return max;
 	}
 
+	/**
+	 *	@return the width of the matrix
+	 */
 	int32 GetWidth()
 	{
 		return X;
 	}
 
+	/**
+	 *	@return the length of the matrix
+	 */
 	int32 GetLength()
 	{
 		return Y;

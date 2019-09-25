@@ -33,7 +33,13 @@ public:
 	FVector2D GetChunkOffset();
 
 	/**
-	 *	Loads all tiles for this chunk into the world
+	 *	Loads all tiles for this chunk into the world.
+	 *	@param ChunkSize - Width and length of the Chunk in tiles. Chunk should always be a square.
+	 *	@param ChunkOffset - Offset from the original chunk (0,0) in chunks (X, Y).
+	 *	@param MaxHeight - Max height, in number of tiles. MaxHeight of 20 would mean that there are 20 tiers of tiles at most.
+	 *	@param ScaleBias - Multiplier used in Perlin Noise function, should be between 0 and 1, lower values result in smoother terrain.
+	 *	@param TileSizeXY - The Width/Length of each tile.
+	 *	@param TileSizeZ - The Height of the tile.
 	 */
 	void LoadChunk(int32 ChunkSize, FVector2D ChunkOffset, int32 MaxHeight, float ScaleBias, float TileSizeXY, float TileSizeZ);
 
